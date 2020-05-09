@@ -7,11 +7,6 @@ turns = []
 TOKEN = ''
 bot = commands.Bot(command_prefix=">")
 
-#So I was thinking: the command could be like >mahjong username1 username2 username3 username4
-# to start a game
-
-
-
 @bot.command()
 async def start(ctx):
     await ctx.send("Waiting for players...")
@@ -21,6 +16,7 @@ async def join(ctx):
     if(len(turns) >= 4):
         await ctx.send("4 players already added.")
     else:
+        turns.append(ctx.author)
         await ctx.send(ctx.author.name + " has joined!")
 
 bot.run(TOKEN)
