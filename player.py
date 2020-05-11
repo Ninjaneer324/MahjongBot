@@ -1,7 +1,6 @@
-from piece import *
+from piece import Piece
 
 class Player:
-    showed = []
     def __init__(self, name="", id=""):
         self.name = name
         self.id = id
@@ -17,7 +16,7 @@ class Player:
 
     def add(self, piece):
         self.hand.append(piece)
-        self.hand.sort(key=self.getNamePiece)
+        self.hand.sort(key=self.getPiece)
 
     def discard(self, i):
         return self.hand.pop(i)

@@ -1,4 +1,4 @@
-from piece import *
+from piece import Piece
 from random import shuffle
 
 class Deck:
