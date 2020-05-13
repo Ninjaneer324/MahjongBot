@@ -10,7 +10,7 @@ TOKEN = ''
 bot = commands.Bot(command_prefix=">")
 
 def deal():
-    dice_1 = random.randint(1, 6)
+    '''dice_1 = random.randint(1, 6)
     dice_2 = random.randint(1, 6)
     wall = (dice_1 + dice_2) % 4
     wall_size = 0
@@ -19,11 +19,8 @@ def deal():
     else:
         wall_size = 34
     start = wall * wall_size + min(dice_1, dice_2)
-    deck.moveBack(start)
-    if wall != 0:
-        for i in range(0, wall):
-            last = turns.pop(0)
-            turns.append(last)
+    deck.moveBack(start)'''
+    random.shuffle(turns)
     deck.dealToPlayers(turns)
 
 @bot.command()

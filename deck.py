@@ -42,12 +42,12 @@ class Deck:
     def drawBack(self):
         return self.deck.pop()
 
-    def moveBack(self, firstCards):
+    '''def moveBack(self, firstCards):
         poppedCards = 0
         while poppedCards < firstCards:
             pop = self.deck.pop(0)
             self.deck.append(pop)
-            poppedCards += 1
+            poppedCards += 1'''
 
     def dealToPlayers(self, turns):
         t = 0
