@@ -41,3 +41,28 @@ class Deck:
 
     def drawBack(self):
         return self.deck.pop()
+
+    def moveBack(self, firstCards):
+        poppedCards = 0
+        while poppedCards < firstCards:
+            pop = self.deck.pop(0)
+            self.deck.append(pop)
+            poppedCards += 1
+
+    def dealToPlayers(self, turns):
+        t = 0
+        while True:
+            turns[t].add(self.deck.pop(0))
+            turns[t].add(self.deck.pop(0))
+            turns[t].add(self.deck.pop(0))
+            turns[t].add(self.deck.pop(0))
+            t += 1
+            if t >= 4:
+                t %= 4
+            if len(turns[0].hand) == 12 and len(turns[1].hand) == 12 and len(turns[2].hand) == 12 and len(turns[3].hand) == 12:
+                break
+        turns[0].append(self.deck.pop(0))
+        turns[0].append(self.deck.pop(3))
+        turns[1].append(self.deck.pop(0))
+        turns[2].append(self.deck.pop(0))
+        turns[3].append(self.deck.pop(0))
