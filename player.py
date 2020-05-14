@@ -1,7 +1,7 @@
 from piece import Piece
 
 class Player:
-    def __init__(self, name="", id=""):
+    def __init__(self, name="", id=0):
         self.name = name
         self.id = id
         self.hand = []
