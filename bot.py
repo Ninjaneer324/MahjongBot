@@ -15,7 +15,7 @@ async def start(ctx):
 
 @bot.command()
 async def join(ctx):
-    player = Player(ctx.author.name, ctx.author.id)
+    player = Player(ctx.author.name, str(ctx.author.id))
     if(not mahjongSession.addPlayer(player)):
         await ctx.send("4 players already added.")
     else:

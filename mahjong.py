@@ -9,15 +9,15 @@ class Mahjong:
 
     def addPlayer(self, player):
         '''Adds players to the game and returns False when the max number of 4 players have already been reached'''
-        if len(players) >= 4:
+        if len(self.players) >= 4:
             return False
-        players.append(player)
+        self.players.append(player)
         return True
 
     def atFullCapacity(self):
         return len(self.players) == 4
 
-    def deal():
+    def deal(self):
         '''dice_1 = random.randint(1, 6)
         dice_2 = random.randint(1, 6)
         wall = (dice_1 + dice_2) % 4
