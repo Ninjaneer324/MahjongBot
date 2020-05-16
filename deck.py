@@ -7,6 +7,7 @@ class Deck:
 
     def __init__(self, type="standard"):
         self.type = type
+        self.type.lower
         self.deck = []
         self.reset()
 
@@ -19,7 +20,7 @@ class Deck:
                 t = Piece(suit, i)
                 for j in range(4):
                     self.deck.append(t)
-        if self.type.lower == "honor":
+        if self.type == "honor":
             for suit in Deck.honor_deckSuits:
                 t = Piece(suit)
                 for i in range(4):
