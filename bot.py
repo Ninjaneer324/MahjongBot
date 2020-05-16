@@ -1,7 +1,7 @@
 import discord
 import random
-from mahjong import Mahjong
-from player import Player
+from MahjongClasses.mahjong import Mahjong
+from MahjongClasses.player import Player
 from discord.ext import commands
 from discord.ext.commands import Bot
 
