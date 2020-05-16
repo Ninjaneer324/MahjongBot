@@ -6,8 +6,7 @@ class Deck:
     honor_deckSuits = ["North", "South", "East", "West", "Center", "Fortune", "TV"]
 
     def __init__(self, type="standard"):
-        self.type = type
-        self.type.lower
+        self.type = type.lower()
         self.deck = []
         self.reset()
 
