@@ -24,8 +24,10 @@ class Deck:
         if self.type == "honor":
             for suit in Deck.honor_deckSuits:
                 t = Piece(suit)
-                for i in range(4):
-                    self.deck.append(t)
+                self.deck.append(t)
+                self.deck.append(t)
+                self.deck.append(t)
+                self.deck.append(t)            
         self.shuffle()
 
     def shuffle(self):
