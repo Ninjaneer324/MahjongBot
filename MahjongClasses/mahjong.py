@@ -7,11 +7,6 @@ class Mahjong:
         self.deck = Deck()
         self.players = []
 
-    def game(self):
-        i = 0
-        while(not self.winnerCheck()):
-            pass
-
     def addPlayer(self, player):
         '''Adds players to the game and returns False when the max number of 4 players have already been reached'''
         if len(self.players) >= 4:
