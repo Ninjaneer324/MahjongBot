@@ -29,23 +29,23 @@ class Mahjong:
         start = wall * wall_size + min(dice_1, dice_2)
         deck.moveBack(start)'''
         random.shuffle(self.players)
-        self.dealToPlayers(self.players)
+        self.dealToPlayers()
 
-    def _playersHave12(self, players):
-        for p in players:
+    def _playersHave12(self):
+        for p in self.players:
             if len(p.hand) != 12:
                 return False
         return True
 
-    def dealToPlayers(self, playerOrder):
+    def dealToPlayers(self):
         '''Assuming playerOrder is a list of players, deal 13 tiles to each player and 14 tiles to starting player'''
-        while not self._playersHave12(playerOrder):
-            for p in playerOrder:
+        while not self._playersHave12():
+            for p in self.players:
                 for i in range(4):
                     p.add(self.deck.drawFront())
-        for p in playerOrder:
+        for p in self.players:
             p.add(self.deck.drawFront())
-        playerOrder[0].add(self.deck.drawFront())
+        self.players[0].add(self.deck.drawFront())
     
     def winnerCheck(self):
         for i in self.players:
