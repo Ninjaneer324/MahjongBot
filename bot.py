@@ -62,14 +62,17 @@ async def join(ctx):
         else:
             await ctx.send(ctx.author.name + " has joined!")
             if mahjongSession.atFullCapacity():
-                mahjongSession.deal()
-                players = mahjongSession.players
-                for p in players:
-                    message = ""
-                    for h in p.hand:
-                        message += mahjong_dict[h.name()]
-                    #insert DM portion
+                await ctx.send("Please call the command >game to begin!")
     else:
         await ctx.send("No mahjong session has started")
 
+@bot.command()
+async def game(ctx):
+    mahjongSession.Session.deal()
+    players = mahjongSession.players
+    for p in players:
+        message = ""
+        for h in p.hand:
+            message += mahjong_dict[h.name()]
+            #insert DM portion
 bot.run(TOKEN)
