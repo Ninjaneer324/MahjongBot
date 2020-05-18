@@ -45,7 +45,9 @@ class Deck:
 
     def drawBack(self):
         return self.deck.pop()
-
+    
+    def isEmpty(self):
+        return len(self.deck) == 0
     '''def moveBack(self, firstCards):
         poppedCards = 0
         while poppedCards < firstCards:

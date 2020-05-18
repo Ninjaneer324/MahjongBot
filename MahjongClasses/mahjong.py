@@ -54,3 +54,9 @@ class Mahjong:
             if i.winner:
                 return True
         return False
+    
+    def gameDraw(self):
+        for i in self.players:
+            if i.winner:
+                return False
+        return self.deck.isEmpty()

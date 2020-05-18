@@ -75,4 +75,9 @@ async def game(ctx):
         for h in p.hand:
             message += mahjong_dict[h.name()]
             #insert DM portion
+            if h.dm_channel is None:
+                await h.create_dm()
+            await h.dm_channel.send(message)
+    while not (mahjongSession.winnerCheck() or mahjongSession.gameDraw()):
+        pass
 bot.run(TOKEN)
