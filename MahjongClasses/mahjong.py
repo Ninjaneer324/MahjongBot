@@ -4,8 +4,9 @@ import random
 # created to provide an abstracted interface to interact with
 class Mahjong:
     def __init__(self, type='standard'):
-        self.deck = Deck()
+        self.deck = Deck(type)
         self.players = []
+        self.pile = []
 
     def addPlayer(self, player):
         '''Adds players to the game and returns False when the max number of 4 players have already been reached'''

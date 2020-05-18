@@ -24,7 +24,3 @@ class Player:
 
     def win(self):
         self.winner = True
-    
-    def getUser(self):
-        return self.user
-

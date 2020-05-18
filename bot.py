@@ -69,15 +69,14 @@ async def join(ctx):
 @bot.command()
 async def game(ctx):
     mahjongSession.Session.deal()
-    players = mahjongSession.players
-    for p in players:
+    for p in mahjongSession.players:
         message = ""
         for h in p.hand:
             message += mahjong_dict[h.name()]
-            #insert DM portion
-            if h.dm_channel is None:
-                await h.create_dm()
-            await h.dm_channel.send(message)
+        if p.user.dm_channel is None:
+            await p.user.create_dm()
+        await p.user.dm_channel.send(message)
+    mahjongSession.players[0].user.dm_channel.send("Play first tile...")
     while not (mahjongSession.winnerCheck() or mahjongSession.gameDraw()):
         pass
 bot.run(TOKEN)
