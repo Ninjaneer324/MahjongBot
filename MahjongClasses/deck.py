@@ -17,8 +17,10 @@ class Deck:
         for suit in Deck.standard_deckSuits:
             for i in range(1, 10):
                 t = Piece(suit, i)
-                for j in range(4):
-                    self.deck.append(t)
+                self.deck.append(t)
+                self.deck.append(t)
+                self.deck.append(t)
+                self.deck.append(t)
         if self.type == "honor":
             for suit in Deck.honor_deckSuits:
                 t = Piece(suit)
