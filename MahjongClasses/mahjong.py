@@ -41,8 +41,10 @@ class Mahjong:
         '''Assuming playerOrder is a list of players, deal 13 tiles to each player and 14 tiles to starting player'''
         while not self._playersHave12():
             for p in self.players:
-                for i in range(4):
-                    p.add(self.deck.drawFront())
+                p.add(self.deck.drawFront())
+                p.add(self.deck.drawFront())
+                p.add(self.deck.drawFront())
+                p.add(self.deck.drawFront())
         for p in self.players:
             p.add(self.deck.drawFront())
         self.players[0].add(self.deck.drawFront())
