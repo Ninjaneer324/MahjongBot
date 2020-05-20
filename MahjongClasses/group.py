@@ -5,6 +5,7 @@ class Group:
         self.pieces = list(pieces)
         self.shown = False
         self.groupType = self.updateType()
+        self.pieces.sort(key=lambda piece: piece.name())
 
     def updateType(self):
         if len(self.pieces) <= 1 or len(self.pieces) > 4:
@@ -39,6 +40,7 @@ class Group:
                 return None
         self.pieces.append(piece)
         self.updateType()
+        self.pieces.sort(key=lambda piece: piece.name())
         return piece
 
     # returns None if piece not found or unable to modify group
@@ -49,6 +51,7 @@ class Group:
         if removed is not None:
             self.pieces.remove(removed)
             self.updateType()
+            self.pieces.sort(key=lambda piece: piece.name())
         return removed
 
     # for debugging
