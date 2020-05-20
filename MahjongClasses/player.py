@@ -1,11 +1,12 @@
+from discord import Member
 from discord import User
 from piece import Piece
 
 class Player:
-    def __init__(self, u):
-        self.user = u
-        self.name = u.name
-        self.id = u.id
+    def __init__(self, m):
+        self.member = m
+        self.name = m.name
+        self.id = str(m.id)
         self.hand = []
         self.winner = False
 
@@ -24,3 +25,4 @@ class Player:
 
     def win(self):
         self.winner = True
+        
