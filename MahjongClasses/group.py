@@ -18,6 +18,7 @@ class Group:
                 self.groupType = "triple"
                 return "triple"
             if len(self.pieces) == 4:
+                self.shown = True
                 self.groupType = "quadruple"
                 return "quadruple"
         if len(self.pieces) == 3 and all(piece.suit == self.pieces[0].suit for piece in self.pieces):
@@ -29,17 +30,26 @@ class Group:
         self.groupType = "none"
         return "none"
 
+    # returns None if unable to modify group
     def addPiece(self, piece):
+        if self.shown:
+            if self.groupType != "triple":
+                return None
+            elif piece.name() != self.pieces[0].name():
+                return None
         self.pieces.append(piece)
         self.updateType()
 
-    # returns None if piece not found
+    # returns None if piece not found or unable to modify group
     def removePiece(self, piece):
+        if self.shown:
+            return None
         removed = next((selfpiece for selfpiece in self.pieces if selfpiece.name() == piece.name()), None)
-        if removed is not None:
-            self.pieces.remove(removed)
+        if removed is None:
+            return None
+        self.pieces.remove(removed)
         self.updateType()
-        return removed
 
+    # for debugging
     def printGroup(self):
         print(self.groupType, "[", ', '.join(piece.name() for piece in self.pieces), "]")
