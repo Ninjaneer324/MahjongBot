@@ -3,8 +3,8 @@ from piece import Piece
 class Group:
     def __init__(self, pieces = []):
         self.pieces = list(pieces)
-        self.groupType = self.updateType()
         self.shown = False
+        self.groupType = self.updateType()
 
     def updateType(self):
         if len(self.pieces) <= 1 or len(self.pieces) > 4:
@@ -31,7 +31,7 @@ class Group:
         return "none"
 
     # returns None if unable to modify group
-    def addPiece(self, piece):
+    def add(self, piece):
         if self.shown:
             if self.groupType != "triple":
                 return None
@@ -39,16 +39,17 @@ class Group:
                 return None
         self.pieces.append(piece)
         self.updateType()
+        return piece
 
     # returns None if piece not found or unable to modify group
-    def removePiece(self, piece):
+    def remove(self, piece):
         if self.shown:
             return None
         removed = next((selfpiece for selfpiece in self.pieces if selfpiece.name() == piece.name()), None)
-        if removed is None:
-            return None
-        self.pieces.remove(removed)
-        self.updateType()
+        if removed is not None:
+            self.pieces.remove(removed)
+            self.updateType()
+        return removed
 
     # for debugging
     def printGroup(self):
