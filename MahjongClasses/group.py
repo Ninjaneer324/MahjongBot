@@ -45,14 +45,12 @@ class Group:
 
     # returns None if piece not found or unable to modify group
     def remove(self, piece):
-        if self.shown:
+        if self.shown or piece not in self.pieces:
             return None
-        removed = next((selfpiece for selfpiece in self.pieces if selfpiece.name() == piece.name()), None)
-        if removed is not None:
-            self.pieces.remove(removed)
-            self.updateType()
-            self.pieces.sort(key=lambda piece: piece.name())
-        return removed
+        self.pieces.remove(piece)
+        self.updateType()
+        self.pieces.sort(key=lambda piece: piece.name())
+        return piece
 
     # for debugging
     def printGroup(self):
