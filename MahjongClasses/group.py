@@ -10,6 +10,7 @@ class Group:
     def updateType(self):
         if len(self.pieces) <= 1 or len(self.pieces) > 4:
             self.groupType = "none"
+            #Alexis comment
             return "none"
         if all(piece.name() == self.pieces[0].name() for piece in self.pieces):
             if len(self.pieces) == 2:
