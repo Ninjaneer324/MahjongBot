@@ -22,7 +22,7 @@ class Player:
     def add(self, piece):
         self.hand.append(piece)
         self.sortHand()
-    
+
     # hand is sorted: shown groups alphabetically, hidden groups alphabetically, all pieces alphabetically
     def sortHand(self):
         self.hand.sort(key=lambda x: (str(type(x)), x.groupType if isinstance(x, Group) else x.name()))
@@ -46,9 +46,9 @@ class Player:
 
     def win(self):
         self.winner = True
-    
+
     def checkWin(self):
-        if all((isinstance(item, Group) and item.groupType() != "none") for item in self.hand):
+        if all((isinstance(item, Group) and item.groupType != "none") for item in self.hand):
             self.win()
 
     # returns None if unable to form group
@@ -82,7 +82,7 @@ class Player:
             return piece
         else:
             return None
-    
+
     def find(self, piece = Piece("")):
         if piece.suit != "":
             for p in range(len(self.hand)):
