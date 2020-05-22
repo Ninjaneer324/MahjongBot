@@ -79,6 +79,13 @@ class Player:
             return piece
         else:
             return None
+    
+    def find(self, piece = Piece("")):
+        if piece.suit != "":
+            for p in range(len(self.hand)):
+                if self.hand[p].name() == piece.name():
+                    return p
+        return None
 
     # for debugging
     def printHand(self):
