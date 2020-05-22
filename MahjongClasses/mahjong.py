@@ -89,6 +89,10 @@ class Mahjong:
         return temp
     
     def chi(self, player_index, piece):
-        options = self.possibleChiCombos(piece)
-        if len(options) == 1:
-            pass
+        possible = self.possibleChiCombos(piece)
+        options = []
+        for i in possible:
+            i.remove(piece)
+            if self.players[player_index].find(i.pieces[0]) is not None and self.players[player_index].find(i.pieces[1]) is not None:
+                i.add(piece)
+                options.append(i)
