@@ -64,7 +64,9 @@ class Mahjong:
                 return False
         return self.deck.isEmpty()
     
-    def possibleCombos(self, num = 0, suit = ""):
+    def possibleCombos(self, piece):
+        num = piece.number
+        suit = piece.suit
         temp = []
         if num == 1:
             temp.append(Group())
