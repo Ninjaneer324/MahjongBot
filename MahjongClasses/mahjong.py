@@ -68,47 +68,24 @@ class Mahjong:
         num = piece.number
         suit = piece.suit
         temp = []
-        if num == 1:
-            temp.append(Group())
-            temp[0].add(Piece(suit, 1))
-            temp[0].add(Piece(suit, 2))
-            temp[0].add(Piece(suit, 3))
-        elif num == 9:
-            temp.append(Group())
-            temp[0].add(Piece(suit, 7))
-            temp[0].add(Piece(suit, 8))
-            temp[0].add(Piece(suit, 9))
-        elif num == 2:
-            temp.append(Group())
-            temp[0].add(Piece(suit, 1))
-            temp[0].add(Piece(suit, 2))
-            temp[0].add(Piece(suit, 3))
-            temp.append(Group())
-            temp[1].add(Piece(suit, 2))
-            temp[1].add(Piece(suit, 3))
-            temp[1].add(Piece(suit, 4))
-        elif num == 8:
-            temp.append(Group())
-            temp[0].add(Piece(suit, 7))
-            temp[0].add(Piece(suit, 8))
-            temp[0].add(Piece(suit, 9))
-            temp.append(Group())
-            temp[1].add(Piece(suit, 6))
-            temp[1].add(Piece(suit, 7))
-            temp[1].add(Piece(suit, 8))
-        elif 3 <= num <= 7:
-            temp.append(Group())
-            temp[0].add(Piece(suit, num - 2))
-            temp[0].add(Piece(suit, num - 1))
-            temp[0].add(Piece(suit, num))
-            temp.append(Group())
-            temp[1].add(Piece(suit, num - 1))
-            temp[1].add(Piece(suit, num))
-            temp[1].add(Piece(suit, num + 1))
-            temp.append(Group())
-            temp[2].add(Piece(suit, num))
-            temp[2].add(Piece(suit, num + 1))
-            temp[2].add(Piece(suit, num + 2))
+        if num - 1 >= 1 and num - 2 >= 1:
+            t = Group()
+            t.add(Piece(suit, num - 2))
+            t.add(Piece(suit, num - 1))
+            t.add(Piece(suit, num))
+            temp.append(t)
+        if num - 1 >= 1 and num + 1 <= 9:
+            t = Group()
+            t.add(Piece(suit, num - 1))
+            t.add(Piece(suit, num))
+            t.add(Piece(suit, num + 1))
+            temp.append(t)
+        if num + 1 <= 9 and num + 2 <= 9:
+            t = Group()
+            t.add(Piece(suit, num))
+            t.add(Piece(suit, num + 1))
+            t.add(Piece(suit, num + 2))
+            temp.append(t)
         return temp
     
     def chi(self, player_index, piece):
