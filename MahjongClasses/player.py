@@ -23,8 +23,11 @@ class Player:
         self.hand.append(piece)
         self.sortHand()
     
+    # hand is sorted: shown groups alphabetically, hidden groups alphabetically, all pieces alphabetically
     def sortHand(self):
         self.hand.sort(key=lambda x: (str(type(x)), x.groupType if isinstance(x, Group) else x.name()))
+        self.lastShown = -1
+        self.lastHidden = -1
         for i in range(len(self.hand)):
             if isinstance(self.hand[i], Group):
                 if self.hand[i].shown:
@@ -83,7 +86,7 @@ class Player:
     def find(self, piece = Piece("")):
         if piece.suit != "":
             for p in range(len(self.hand)):
-                if self.hand[p].name() == piece.name():
+                if isinstance(self.hand[p], Piece) and self.hand[p].name() == piece.name():
                     return p
         return None
 
