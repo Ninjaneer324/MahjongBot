@@ -10,8 +10,8 @@ class Player:
         self.id = str(m.id)
         self.hand = []
         self.winner = False
-		self.lastShown = -1
-		self.lastHidden = -1
+        self.lastShown = -1
+        self.lastHidden = -1
 
     def getPiece(self, piece):
         return piece.name()
@@ -25,14 +25,14 @@ class Player:
     
     def sortHand(self):
         self.hand.sort(key=lambda x: (str(type(x)), x.groupType if isinstance(x, Group) else x.name()))
-		for i in range(len(self.hand)):
-			if isinstance(self.hand[i], Group):
-				if self.hand[i].shown:
-					self.lastShown = i
-				else:
-					self.lastHidden = i
-			else:
-				break
+        for i in range(len(self.hand)):
+            if isinstance(self.hand[i], Group):
+                if self.hand[i].shown:
+                    self.lastShown = i
+                else:
+                    self.lastHidden = i
+            else:
+                break
 
     # returns None if selected index is a group
     def discard(self, i):
@@ -47,7 +47,7 @@ class Player:
     def checkWin(self):
         if all((isinstance(item, Group) and item.groupType() != "none") for item in self.hand):
             self.win()
-    
+
     # returns None if unable to form group
     def formGroup(self, pieces = []):
         if len(pieces) == 0:
@@ -59,7 +59,7 @@ class Player:
         self.hand.append(Group(pieces))
         self.sortHand()
         return Group
-    
+
     # returns None if unable to add to group
     def addToGroup(self, piece, group):
         if piece in self.hand and group.add(piece) is not None:
@@ -68,16 +68,18 @@ class Player:
             return group
         else:
             return None
-    
+
     # returns None if unable to remove from group
     def removeFromGroup(self, piece, group):
         if group.remove(piece) is not None:
             self.hand.append(piece)
+            if group.isEmpty():
+                self.hand.remove(group)
             self.sortHand()
-            return group
+            return piece
         else:
             return None
-    
+
     # for debugging
     def printHand(self):
         print(self.name, "\b's Hand")

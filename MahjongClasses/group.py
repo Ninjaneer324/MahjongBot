@@ -8,6 +8,13 @@ class Group:
         self.groupType = ""
         self.updateType()
 
+    def isEmpty(self):
+        return len(self.pieces) == 0
+
+    def showGroup(self):
+        self.shown = True
+        self.groupType = self.groupType.capitalize()
+
     def updateType(self):
         if len(self.pieces) <= 1 or len(self.pieces) > 4:
             self.groupType = "none"
@@ -27,10 +34,6 @@ class Group:
         if self.shown:
             self.groupType = self.groupType.capitalize()
 
-    def showGroup(self):
-        self.shown = True
-        self.groupType = self.groupType.capitalize()
-    
     # returns None if unable to modify group
     def add(self, piece):
         if self.shown:
