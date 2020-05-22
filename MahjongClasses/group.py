@@ -4,43 +4,43 @@ class Group:
     def __init__(self, pieces = []):
         self.pieces = list(pieces)
         self.shown = False
-        self.groupType = self.updateType()
         self.pieces.sort(key=lambda piece: piece.name())
+        self.groupType = ""
+        self.updateType()
 
     def updateType(self):
         if len(self.pieces) <= 1 or len(self.pieces) > 4:
             self.groupType = "none"
-            return "none"
-        if all(piece.name() == self.pieces[0].name() for piece in self.pieces):
+        elif all(piece.name() == self.pieces[0].name() for piece in self.pieces):
             if len(self.pieces) == 2:
                 self.groupType = "pair"
-                return "pair"
-            if len(self.pieces) == 3:
+            elif len(self.pieces) == 3:
                 self.groupType = "triple"
-                return "triple"
-            if len(self.pieces) == 4:
+            elif len(self.pieces) == 4:
                 self.shown = True
                 self.groupType = "quadruple"
-                return "quadruple"
-        if len(self.pieces) == 3 and all(piece.suit == self.pieces[0].suit for piece in self.pieces):
-            minVal = min(piece.number for piece in self.pieces)
-            if max(piece.number for piece in self.pieces) - minVal == 2:
-                if any(piece.number == minVal + 1 for piece in self.pieces):
-                    self.groupType = "series"
-                    return "series"
-        self.groupType = "none"
-        return "none"
+        elif len(self.pieces) == 3 and all(piece.suit == self.pieces[0].suit for piece in self.pieces):
+            if self.pieces[0].number + 2 == self.pieces[1].number + 1 == self.pieces[2].number:
+                self.groupType = "series"
+        else:
+            self.groupType = "none"
+        if self.shown:
+            self.groupType = self.groupType.capitalize()
 
+    def showGroup(self):
+        self.shown = True
+        self.groupType = self.groupType.capitalize()
+    
     # returns None if unable to modify group
     def add(self, piece):
         if self.shown:
-            if self.groupType != "triple":
+            if self.groupType != "Triple":
                 return None
             elif piece.name() != self.pieces[0].name():
                 return None
         self.pieces.append(piece)
-        self.updateType()
         self.pieces.sort(key=lambda piece: piece.name())
+        self.updateType()
         return piece
 
     # returns None if piece not found or unable to modify group
@@ -48,8 +48,8 @@ class Group:
         if self.shown or piece not in self.pieces:
             return None
         self.pieces.remove(piece)
-        self.updateType()
         self.pieces.sort(key=lambda piece: piece.name())
+        self.updateType()
         return piece
 
     # for debugging
