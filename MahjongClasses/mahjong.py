@@ -73,9 +73,9 @@ class Mahjong:
             temp[0].add(Piece(suit, 3))
         elif num == 9:
             temp.append(Group())
-            temp[0].add(Piece(suit, 1))
-            temp[0].add(Piece(suit, 2))
-            temp[0].add(Piece(suit, 3))
+            temp[0].add(Piece(suit, 7))
+            temp[0].add(Piece(suit, 8))
+            temp[0].add(Piece(suit, 9))
         elif num == 2:
             temp.append(Group())
             temp[0].add(Piece(suit, 1))
