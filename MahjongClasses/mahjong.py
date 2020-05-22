@@ -64,7 +64,7 @@ class Mahjong:
                 return False
         return self.deck.isEmpty()
     
-    def possibleCombos(self, piece):
+    def possibleChiCombos(self, piece):
         num = piece.number
         suit = piece.suit
         temp = []
@@ -110,3 +110,8 @@ class Mahjong:
             temp[2].add(Piece(suit, num + 1))
             temp[2].add(Piece(suit, num + 2))
         return temp
+    
+    def chi(self, player_index, piece):
+        options = self.possibleChiCombos(piece)
+        if len(options) == 1:
+            pass
