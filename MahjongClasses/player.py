@@ -49,7 +49,12 @@ class Player:
 
     def checkWin(self):
         if all((isinstance(item, Group) and item.groupType != "none") for item in self.hand):
-            self.win()
+            pairs = 0
+            for item in self.hand:
+                if item.groupType == "pair":
+                    pairs += 1
+            if pairs < 2:
+                self.win()
 
     # returns None if unable to form group
     def formGroup(self, pieces = []):
