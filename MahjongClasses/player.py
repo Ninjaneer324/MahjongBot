@@ -10,6 +10,8 @@ class Player:
         self.id = str(m.id)
         self.hand = []
         self.winner = False
+		self.lastShown = -1
+		self.lastHidden = -1
 
     def getPiece(self, piece):
         return piece.name()
@@ -23,6 +25,14 @@ class Player:
     
     def sortHand(self):
         self.hand.sort(key=lambda x: (str(type(x)), x.groupType if isinstance(x, Group) else x.name()))
+		for i in range(len(self.hand)):
+			if isinstance(self.hand[i], Group):
+				if self.hand[i].shown:
+					self.lastShown = i
+				else:
+					self.lastHidden = i
+			else:
+				break
 
     # returns None if selected index is a group
     def discard(self, i):
