@@ -88,6 +88,15 @@ class Mahjong:
             temp.append(t)
         return temp
     
+    def findPlayer(self, discord_id):
+        for i in range(len(self.players)):
+            if self.players[i].id == discord_id:
+                return i
+        return None
+
+    def play(self, player_index, i):
+        self.players[player_index].discard(i)
+    
     def chi(self, player_index, piece):
         possible = self.possibleChiCombos(piece)
         options = []
