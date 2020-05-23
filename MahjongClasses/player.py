@@ -37,12 +37,34 @@ class Player:
             else:
                 break
 
+    ''' treats Groups as part of a flattened list
+        returns None if unable to discard piece '''
+    def discard(self, i):
+        indexCount = 0
+        indexActual = 0
+        while(indexCount < i):
+            if isinstance(self.hand[indexActual], Group):
+                indexCount += len(self.hand[indexActual].pieces)
+            else:
+                indexCount += 1
+            if indexCount <= i:
+                indexActual += 1
+        if isinstance(self.hand[indexActual], Group):
+            group = self.hand[indexActual]
+            if indexCount == i:
+                return group.remove(group.pieces[0])
+            else:
+                return group.remove(group.pieces[i-indexCount+len(group.pieces)])
+        else:
+            return self.hand.pop(indexActual)
+
+    ''' Old discard function, does not discard from groups
     # returns None if selected index is a group
     def discard(self, i):
         if isinstance(self.hand[i], Group):
             return None
         else:
-            return self.hand.pop(i)
+            return self.hand.pop(i)'''
 
     def win(self):
         self.winner = True
