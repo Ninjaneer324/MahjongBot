@@ -8,6 +8,8 @@ from discord.ext.commands import Bot
 mahjongSession = None
 TOKEN = ''
 bot = commands.Bot(command_prefix=">")
+peng_kong = False
+chi = False
 
 mahjong_dict = {}
 mahjong_dict["1 Bamboo"] = "🀐"
@@ -78,12 +80,13 @@ async def game(ctx):
     i = 0
 
     def checkPlayFirst(m):
-            return str(m.author.id) == mahjongSession.players[i].id and m.content.startsWith(">play")
+            return str(m.author.id) == mahjongSession.players[0].id and m.content.startsWith(">play")
     await mahjongSession.players[0].member.dm_channel.send("Play first tile...")
     await bot.wait_for('message', check=checkPlayFirst)
     i = 1
     while not (mahjongSession.winnerCheck() or mahjongSession.gameDraw()):
-        #insert stuff
+        if not (peng_kong or chi):
+            pass
         i += 1
         i %= 4
 @bot.command()
