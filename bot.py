@@ -80,7 +80,7 @@ async def game(ctx):
     def checkPlayFirst(m):
             return str(m.author.id) == mahjongSession.players[i].id and m.content.startsWith(">play")
     await mahjongSession.players[0].member.dm_channel.send("Play first tile...")
-    msg = await bot.wait_for('message', check=checkPlayFirst)
+    await bot.wait_for('message', check=checkPlayFirst)
     i = 1
     while not (mahjongSession.winnerCheck() or mahjongSession.gameDraw()):
         #insert stuff
@@ -90,5 +90,6 @@ async def game(ctx):
 async def play(ctx, arg):
     if arg.isDigit():
         temp = mahjongSession.findPlayer(str(ctx.author.id))
-        mahjongSession.play(temp, int(arg))
+        if temp is not None:
+            mahjongSession.play(temp, int(arg))
 bot.run(TOKEN)
