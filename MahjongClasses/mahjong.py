@@ -8,7 +8,7 @@ class Mahjong:
     def __init__(self, type='standard'):
         self.deck = Deck(type)
         self.players = []
-        self.pile = []
+        self.pile = {}
 
     def addPlayer(self, player):
         '''Adds players to the game and returns False when the max number of 4 players have already been reached'''
@@ -95,7 +95,11 @@ class Mahjong:
         return None
 
     def play(self, player_index, i):
-        self.players[player_index].discard(i)
+        p = self.players[player_index].discard(i)
+        if p.name() in self.pile:
+            self.pile[p.name()] += 1
+        else:
+            self.pile[p.name()] = 1
     
     def chi(self, player_index, piece):
         possible = self.possibleChiCombos(piece)
@@ -105,3 +109,4 @@ class Mahjong:
             if self.players[player_index].find(i.pieces[0]) is not None and self.players[player_index].find(i.pieces[1]) is not None:
                 i.add(piece)
                 options.append(i)
+                #finish this part
