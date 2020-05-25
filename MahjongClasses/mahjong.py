@@ -7,45 +7,44 @@ from discord.ext import commands
 from discord.ext.commands import Bot
 from bot import bot
 
+mahjong_dict = {}
+mahjong_dict["1 Bamboo"] = "🀐"
+mahjong_dict["2 Bamboo"] = "🀑"
+mahjong_dict["3 Bamboo"] = "🀒"
+mahjong_dict["4 Bamboo"] = "🀓"
+mahjong_dict["5 Bamboo"] = "🀔"
+mahjong_dict["6 Bamboo"] = "🀕"
+mahjong_dict["7 Bamboo"] = "🀖"
+mahjong_dict["8 Bamboo"] = "🀗"
+mahjong_dict["9 Bamboo"] = "🀘"
+mahjong_dict["1 Dot"] = "🀙"
+mahjong_dict["2 Dot"] = "🀚"
+mahjong_dict["3 Dot"] = "🀛"
+mahjong_dict["4 Dot"] = "🀜"
+mahjong_dict["5 Dot"] = "🀝"
+mahjong_dict["6 Dot"] = "🀞"
+mahjong_dict["7 Dot"] = "🀟"
+mahjong_dict["8 Dot"] = "🀠"
+mahjong_dict["9 Dot"] = "🀡"
+mahjong_dict["1 Wan"] = "🀇"
+mahjong_dict["2 Wan"] = "🀈"
+mahjong_dict["3 Wan"] = "🀉"
+mahjong_dict["4 Wan"] = "🀊"
+mahjong_dict["5 Wan"] = "🀋"
+mahjong_dict["6 Wan"] = "🀌"
+mahjong_dict["7 Wan"] = "🀍"
+mahjong_dict["8 Wan"] = "🀎"
+mahjong_dict["9 Wan"] = "🀏"
+mahjong_dict["East"] = "🀀"
+mahjong_dict["West"] = "🀂"
+mahjong_dict["North"] = "🀃"
+mahjong_dict["South"] = "🀁"
+mahjong_dict["Center"] = "🀄"
+mahjong_dict["Fortune"] = "🀅"
+mahjong_dict["TV"] = "🀆"
+
 # created to provide an abstracted interface to interact with
 class Mahjong:
-
-    mahjong_dict = {}
-    mahjong_dict["1 Bamboo"] = "🀐"
-    mahjong_dict["2 Bamboo"] = "🀑"
-    mahjong_dict["3 Bamboo"] = "🀒"
-    mahjong_dict["4 Bamboo"] = "🀓"
-    mahjong_dict["5 Bamboo"] = "🀔"
-    mahjong_dict["6 Bamboo"] = "🀕"
-    mahjong_dict["7 Bamboo"] = "🀖"
-    mahjong_dict["8 Bamboo"] = "🀗"
-    mahjong_dict["9 Bamboo"] = "🀘"
-    mahjong_dict["1 Dot"] = "🀙"
-    mahjong_dict["2 Dot"] = "🀚"
-    mahjong_dict["3 Dot"] = "🀛"
-    mahjong_dict["4 Dot"] = "🀜"
-    mahjong_dict["5 Dot"] = "🀝"
-    mahjong_dict["6 Dot"] = "🀞"
-    mahjong_dict["7 Dot"] = "🀟"
-    mahjong_dict["8 Dot"] = "🀠"
-    mahjong_dict["9 Dot"] = "🀡"
-    mahjong_dict["1 Wan"] = "🀇"
-    mahjong_dict["2 Wan"] = "🀈"
-    mahjong_dict["3 Wan"] = "🀉"
-    mahjong_dict["4 Wan"] = "🀊"
-    mahjong_dict["5 Wan"] = "🀋"
-    mahjong_dict["6 Wan"] = "🀌"
-    mahjong_dict["7 Wan"] = "🀍"
-    mahjong_dict["8 Wan"] = "🀎"
-    mahjong_dict["9 Wan"] = "🀏"
-    mahjong_dict["East"] = "🀀"
-    mahjong_dict["West"] = "🀂"
-    mahjong_dict["North"] = "🀃"
-    mahjong_dict["South"] = "🀁"
-    mahjong_dict["Center"] = "🀄"
-    mahjong_dict["Fortune"] = "🀅"
-    mahjong_dict["TV"] = "🀆"
-
     def __init__(self, type='standard'):
         self.deck = Deck(type)
         self.players = []
@@ -161,8 +160,8 @@ class Mahjong:
             options[0].remove(piece)
             first = self.players[player_index].find(options[0].pieces[0])
             second = self.players[player_index].find(options[0].pieces[1])
-            self.players[player_index].hand.pop(first)
-            self.players[player_index].hand.pop(second)
+            self.players[player_index].discard(first)
+            self.players[player_index].discard(second)
             options[0].showGroup()
             self.players[player_index].hand.append(options[0])
         else:
@@ -170,7 +169,7 @@ class Mahjong:
             for i in range(len(options)):
                 msg = str(i + 1) + ": "
                 for p in options[i].pieces:
-                    msg += self.mahjong_dict[p.name()]
+                    msg += mahjong_dict[p.name()]
                 channel = await self.players[player_index].member.create_dm()
                 await channel.send(msg)
             message = await bot.wait_for('message', check=checkValid)
@@ -178,8 +177,36 @@ class Mahjong:
             options[num].remove(piece)
             first = self.players[player_index].find(options[num].pieces[0])
             second = self.players[player_index].find(options[num].pieces[1])
-            self.players[player_index].hand.pop(first)
-            self.players[player_index].hand.pop(second)
+            self.players[player_index].discard(first)
+            self.players[player_index].discard(second)
             options[num].showGroup()
             self.players[player_index].hand.append(options[num])
-            #finish writing
+    def peng(self, player_index, piece):
+        if self.players[player_index].canPengOrKong(piece) >= 2:
+            first = self.players[player_index].find(piece)
+            self.players[player_index].discard(first)
+            second = self.players[player_index].find(piece)
+            self.players[player_index].discard(second)
+            t = Group()
+            t.add(piece)
+            t.add(piece)
+            t.add(piece)
+            t.showGroup()
+            self.players[player_index].hand.append(t)
+        return None
+    
+    def kong(self, player_index, piece):
+        if self.players[player_index].canPengOrKong(piece) == 3:
+            first = self.players[player_index].find(piece)
+            self.players[player_index].discard(first)
+            second = self.players[player_index].find(piece)
+            self.players[player_index].discard(second)
+            t = Group()
+            t.add(piece)
+            t.add(piece)
+            t.add(piece)
+            t.add(piece)
+            t.showGroup()
+            self.players[player_index].hand.append(t)
+            self.players[player_index].add(self.deck.drawBack())
+        return None

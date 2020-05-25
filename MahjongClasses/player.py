@@ -22,6 +22,17 @@ class Player:
     def add(self, piece):
         self.hand.append(piece)
         self.sortHand()
+    
+    def canPengOrKong(self, piece = Piece("")):
+        cnt = 0
+        if piece.suit != "":
+            for p in range(len(self.hand)):
+                if isinstance(self.hand[p], Piece) and self.hand[p].name() == piece.name():
+                    cnt += 1
+            for p in range(len(self.hand)):
+                if isinstance(self.hand[p], Group) and self.hand[p].find(piece) is not None:
+                    cnt += 1
+        return cnt
 
     # hand is sorted: shown groups alphabetically, hidden groups alphabetically, all pieces alphabetically
     def sortHand(self):
@@ -115,6 +126,9 @@ class Player:
             for p in range(len(self.hand)):
                 if isinstance(self.hand[p], Piece) and self.hand[p].name() == piece.name():
                     return p
+            for p in range(len(self.hand)):
+                if isinstance(self.hand[p], Group) and self.hand[p].find(piece) is not None:
+                    return p + self.hand[p].find(piece)
         return None
 
     # for debugging

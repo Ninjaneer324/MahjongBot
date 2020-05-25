@@ -8,6 +8,12 @@ class Group:
         self.groupType = ""
         self.updateType()
 
+    def find(self, piece):
+        for i in self.pieces:
+            if piece.name() == i.name():
+                return i
+        return None
+
     def isEmpty(self):
         return len(self.pieces) == 0
 
