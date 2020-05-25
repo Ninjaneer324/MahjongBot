@@ -9,8 +9,9 @@ from discord.ext.commands import Bot
 mahjongSession = None
 TOKEN = ''
 bot = commands.Bot(command_prefix=">")
-peng_kong = False
-chi = False
+peng_kong_asked = False
+chi_asked = False
+current_player = 0
 
 @bot.command()
 async def start(ctx):
@@ -42,22 +43,36 @@ async def game(ctx):
             message += mahjong_dict[h.name()]
         channel = await p.member.create_dm()
         await channel.send(message)
-    i = 0
+    global current_player
+    current_player = 0
 
     def checkPlayFirst(m):
             return str(m.author.id) == mahjongSession.players[0].id and m.content.startsWith(">play")
     await mahjongSession.players[0].member.dm_channel.send("Play first tile...")
     await bot.wait_for('message', check=checkPlayFirst)
-    i = 1
+    current_player = 1
     while not (mahjongSession.winnerCheck() or mahjongSession.gameDraw()):
-        if not (peng_kong or chi):
+        if not (peng_kong_asked or chi_asked):
             pass
-        i += 1
-        i %= 4
+        current_player += 1
+        current_player %= 4
 @bot.command()
 async def play(ctx, arg):
     if arg.isDigit():
         temp = mahjongSession.findPlayer(str(ctx.author.id))
         if temp is not None:
             mahjongSession.play(temp, int(arg))
+
+@bot.command()
+async def chi(ctx):
+    def checkPlay(m):
+            return m.content.startsWith(">play")
+
+@bot.command()
+async def peng(ctx):
+    pass
+
+@bot.command()
+async def kong(ctx):
+    pass
 bot.run(TOKEN)
