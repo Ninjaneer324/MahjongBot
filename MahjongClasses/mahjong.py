@@ -112,5 +112,13 @@ class Mahjong:
         if len(options) == 0:
             return None
         elif len(options) == 1:
+            options[0].remove(piece)
+            first = self.players[player_index].find(options[0].pieces[0])
+            second = self.players[player_index].find(options[0].pieces[1])
+            self.players[player_index].hand.pop(first)
+            self.players[player_index].hand.pop(second)
+            options[0].shown = True
+            self.players[player_index].hand.append(options[0])
+        else:
             pass
             #finish writing
