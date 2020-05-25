@@ -163,7 +163,7 @@ class Mahjong:
             second = self.players[player_index].find(options[0].pieces[1])
             self.players[player_index].hand.pop(first)
             self.players[player_index].hand.pop(second)
-            options[0].shown = True
+            options[0].showGroup()
             self.players[player_index].hand.append(options[0])
         else:
             await self.players[player_index].member.dm_channel.send("Which chi?")
@@ -180,6 +180,6 @@ class Mahjong:
             second = self.players[player_index].find(options[num].pieces[1])
             self.players[player_index].hand.pop(first)
             self.players[player_index].hand.pop(second)
-            options[num].shown = True
+            options[num].showGroup()
             self.players[player_index].hand.append(options[num])
             #finish writing
