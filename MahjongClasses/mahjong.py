@@ -2,9 +2,50 @@ from deck import Deck
 from piece import Piece
 from group import Group
 import random
+import discord
+from discord.ext import commands
+from discord.ext.commands import Bot
+from bot import bot
 
 # created to provide an abstracted interface to interact with
 class Mahjong:
+
+    mahjong_dict = {}
+    mahjong_dict["1 Bamboo"] = "🀐"
+    mahjong_dict["2 Bamboo"] = "🀑"
+    mahjong_dict["3 Bamboo"] = "🀒"
+    mahjong_dict["4 Bamboo"] = "🀓"
+    mahjong_dict["5 Bamboo"] = "🀔"
+    mahjong_dict["6 Bamboo"] = "🀕"
+    mahjong_dict["7 Bamboo"] = "🀖"
+    mahjong_dict["8 Bamboo"] = "🀗"
+    mahjong_dict["9 Bamboo"] = "🀘"
+    mahjong_dict["1 Dot"] = "🀙"
+    mahjong_dict["2 Dot"] = "🀚"
+    mahjong_dict["3 Dot"] = "🀛"
+    mahjong_dict["4 Dot"] = "🀜"
+    mahjong_dict["5 Dot"] = "🀝"
+    mahjong_dict["6 Dot"] = "🀞"
+    mahjong_dict["7 Dot"] = "🀟"
+    mahjong_dict["8 Dot"] = "🀠"
+    mahjong_dict["9 Dot"] = "🀡"
+    mahjong_dict["1 Wan"] = "🀇"
+    mahjong_dict["2 Wan"] = "🀈"
+    mahjong_dict["3 Wan"] = "🀉"
+    mahjong_dict["4 Wan"] = "🀊"
+    mahjong_dict["5 Wan"] = "🀋"
+    mahjong_dict["6 Wan"] = "🀌"
+    mahjong_dict["7 Wan"] = "🀍"
+    mahjong_dict["8 Wan"] = "🀎"
+    mahjong_dict["9 Wan"] = "🀏"
+    mahjong_dict["East"] = "🀀"
+    mahjong_dict["West"] = "🀂"
+    mahjong_dict["North"] = "🀃"
+    mahjong_dict["South"] = "🀁"
+    mahjong_dict["Center"] = "🀄"
+    mahjong_dict["Fortune"] = "🀅"
+    mahjong_dict["TV"] = "🀆"
+
     def __init__(self, type='standard'):
         self.deck = Deck(type)
         self.players = []
@@ -104,11 +145,16 @@ class Mahjong:
     def chi(self, player_index, piece):
         possible = self.possibleChiCombos(piece)
         options = []
+        #right now i'm working under the pretext that the remove function for Group is working properly
         for i in possible:
             i.remove(piece)
             if self.players[player_index].find(i.pieces[0]) is not None and self.players[player_index].find(i.pieces[1]) is not None:
                 i.add(piece)
                 options.append(i)
+        
+        def checkValid(m):
+            return str(m.author.id) == self.players[player_index].id and m.content.isDigit() and 1 <= int(m.content) <= len(options)
+
         if len(options) == 0:
             return None
         elif len(options) == 1:
@@ -120,5 +166,20 @@ class Mahjong:
             options[0].shown = True
             self.players[player_index].hand.append(options[0])
         else:
-            pass
+            await self.players[player_index].member.dm_channel.send("Which chi?")
+            for i in range(len(options)):
+                msg = str(i + 1) + ": "
+                for p in options[i].pieces:
+                    msg += self.mahjong_dict[p.name()]
+                channel = await self.players[player_index].member.create_dm()
+                await channel.send(msg)
+            message = await bot.wait_for('message', check=checkValid)
+            num = int(message.content) - 1
+            options[num].remove(piece)
+            first = self.players[player_index].find(options[num].pieces[0])
+            second = self.players[player_index].find(options[num].pieces[1])
+            self.players[player_index].hand.pop(first)
+            self.players[player_index].hand.pop(second)
+            options[num].shown = True
+            self.players[player_index].hand.append(options[num])
             #finish writing
