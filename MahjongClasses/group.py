@@ -47,6 +47,20 @@ class Group:
         return piece
 
     # returns None if piece not found or unable to modify group
+
+    '''
+    from MahjongClasses.piece import Piece
+
+    two_bamboo = Piece("Bamboo", 2)
+
+    hand = []
+    hand.append(two_bamboo)
+    hand.append(two_bamboo)
+
+    print(Piece("Bamboo", 2) in hand)
+    we may have to fix remove. I don't think we can just say piece not in self.pieces. I tried running this code above
+    and the result came out False
+    '''
     def remove(self, piece):
         if self.shown or piece not in self.pieces:
             return None

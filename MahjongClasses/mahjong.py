@@ -109,4 +109,8 @@ class Mahjong:
             if self.players[player_index].find(i.pieces[0]) is not None and self.players[player_index].find(i.pieces[1]) is not None:
                 i.add(piece)
                 options.append(i)
-                #finish this part
+        if len(options) == 0:
+            return None
+        elif len(options) == 1:
+            pass
+            #finish writing
