@@ -140,6 +140,7 @@ class Mahjong:
             self.pile[p.name()] += 1
         else:
             self.pile[p.name()] = 1
+        return p
     
     def chi(self, player_index, piece):
         possible = self.possibleChiCombos(piece)
@@ -182,31 +183,29 @@ class Mahjong:
             options[num].showGroup()
             self.players[player_index].hand.append(options[num])
     def peng(self, player_index, piece):
-        if self.players[player_index].canPengOrKong(piece) >= 2:
-            first = self.players[player_index].find(piece)
-            self.players[player_index].discard(first)
-            second = self.players[player_index].find(piece)
-            self.players[player_index].discard(second)
-            t = Group()
-            t.add(piece)
-            t.add(piece)
-            t.add(piece)
-            t.showGroup()
-            self.players[player_index].hand.append(t)
+        first = self.players[player_index].find(piece)
+        self.players[player_index].discard(first)
+        second = self.players[player_index].find(piece)
+        self.players[player_index].discard(second)
+        t = Group()
+        t.add(piece)
+        t.add(piece)
+        t.add(piece)
+        t.showGroup()
+        self.players[player_index].hand.append(t)
         return None
     
     def kong(self, player_index, piece):
-        if self.players[player_index].canPengOrKong(piece) == 3:
-            first = self.players[player_index].find(piece)
-            self.players[player_index].discard(first)
-            second = self.players[player_index].find(piece)
-            self.players[player_index].discard(second)
-            t = Group()
-            t.add(piece)
-            t.add(piece)
-            t.add(piece)
-            t.add(piece)
-            t.showGroup()
-            self.players[player_index].hand.append(t)
-            self.players[player_index].add(self.deck.drawBack())
+        first = self.players[player_index].find(piece)
+        self.players[player_index].discard(first)
+        second = self.players[player_index].find(piece)
+        self.players[player_index].discard(second)
+        t = Group()
+        t.add(piece)
+        t.add(piece)
+        t.add(piece)
+        t.add(piece)
+        t.showGroup()
+        self.players[player_index].hand.append(t)
+        self.players[player_index].add(self.deck.drawBack())
         return None
