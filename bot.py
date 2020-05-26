@@ -81,9 +81,11 @@ async def play(ctx, arg):
 
 @bot.command()
 async def chi(ctx):
+    global current_player
     temp = current_player + 1
     temp %= 4
-    if str(ctx.author.id) == mahjongSession.players[temp].id:
+    if str(ctx.author.id) == mahjongSession.players[temp].id and len(mahjongSession.chiOptions(temp, last_piece)) > 0:
+        current_player = temp
         global chi_asked
         chi_asked = True 
         mahjongSession.pile[last_piece.name()] -= 1
@@ -96,8 +98,9 @@ async def chi(ctx):
 @bot.command()
 async def peng(ctx):
     global current_player
-    current_player = mahjongSession.findPlayer(str(ctx.author.id))
-    if mahjongSession.players[current_player].canPengOrKong(last_piece) >= 2:
+    temp = mahjongSession.findPlayer(str(ctx.author.id))
+    if mahjongSession.players[temp].canPengOrKong(last_piece) >= 2:
+        current_player = temp
         global peng_kong_asked
         peng_kong_asked = True
         mahjongSession.pile[last_piece.name()] -= 1
@@ -110,8 +113,9 @@ async def peng(ctx):
 @bot.command()
 async def kong(ctx):
     global current_player
-    current_player = mahjongSession.findPlayer(str(ctx.author.id))
-    if mahjongSession.players[current_player].canPengOrKong(last_piece) == 3:
+    temp = mahjongSession.findPlayer(str(ctx.author.id))
+    if mahjongSession.players[temp].canPengOrKong(last_piece) == 3:
+        current_player = temp
         global peng_kong_asked
         peng_kong_asked = True
         mahjongSession.pile[last_piece.name()] -= 1

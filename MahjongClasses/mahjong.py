@@ -128,6 +128,17 @@ class Mahjong:
             temp.append(t)
         return temp
     
+    def chiOptions(self, player_index, piece):
+        possible = self.possibleChiCombos(piece)
+        options = []
+        #right now i'm working under the pretext that the remove function for Group is working properly
+        for i in possible:
+            i.remove(piece)
+            if self.players[player_index].find(i.pieces[0]) is not None and self.players[player_index].find(i.pieces[1]) is not None:
+                i.add(piece)
+                options.append(i)
+        return options
+    
     def findPlayer(self, discord_id):
         for i in range(len(self.players)):
             if self.players[i].id == discord_id:
@@ -143,14 +154,7 @@ class Mahjong:
         return p
     
     def chi(self, player_index, piece):
-        possible = self.possibleChiCombos(piece)
-        options = []
-        #right now i'm working under the pretext that the remove function for Group is working properly
-        for i in possible:
-            i.remove(piece)
-            if self.players[player_index].find(i.pieces[0]) is not None and self.players[player_index].find(i.pieces[1]) is not None:
-                i.add(piece)
-                options.append(i)
+        options = self.chiOptions(player_index, piece)
         
         def checkValid(m):
             return str(m.author.id) == self.players[player_index].id and m.content.isDigit() and 1 <= int(m.content) <= len(options)
@@ -182,6 +186,7 @@ class Mahjong:
             self.players[player_index].discard(second)
             options[num].showGroup()
             self.players[player_index].hand.append(options[num])
+    
     def peng(self, player_index, piece):
         first = self.players[player_index].find(piece)
         self.players[player_index].discard(first)
@@ -193,7 +198,6 @@ class Mahjong:
         t.add(piece)
         t.showGroup()
         self.players[player_index].hand.append(t)
-        return None
     
     def kong(self, player_index, piece):
         first = self.players[player_index].find(piece)
@@ -208,4 +212,3 @@ class Mahjong:
         t.showGroup()
         self.players[player_index].hand.append(t)
         self.players[player_index].add(self.deck.drawBack())
-        return None
