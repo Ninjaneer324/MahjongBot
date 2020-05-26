@@ -49,15 +49,27 @@ async def game(ctx):
     current_player = 0
 
     def checkPlayFirst(m):
-            return str(m.author.id) == mahjongSession.players[0].id and m.content.startsWith(">play")
+        return str(m.author.id) == mahjongSession.players[0].id and m.content.startsWith(">play")
+
     await mahjongSession.players[0].member.dm_channel.send("Play first tile...")
     await bot.wait_for('message', check=checkPlayFirst)
+    #insert display for first played card in channel
     current_player = 1
     while not (mahjongSession.winnerCheck() or mahjongSession.gameDraw()):
-        if not (peng_kong_asked or chi_asked):
+        #insert code for time limit about asking for peng/kong or chi
+        global peng_kong_asked
+        global chi_asked
+        if peng_kong_asked:
+            pass
+        elif chi_asked:
+            pass
+        else:
             pass
         current_player += 1
         current_player %= 4
+        peng_kong_asked = False
+        chi_asked = False
+        #update pile (in channel), hands (in DMs), and last piece (in channel)
 
 @bot.command()
 async def play(ctx, arg):
@@ -69,10 +81,11 @@ async def play(ctx, arg):
 
 @bot.command()
 async def chi(ctx):
-    global current_player
-    current_player += 1
-    current_player %= 4
-    if str(ctx.author.id) == mahjongSession.players[current_player].id: 
+    temp = current_player + 1
+    temp %= 4
+    if str(ctx.author.id) == mahjongSession.players[temp].id:
+        global chi_asked
+        chi_asked = True 
         mahjongSession.pile[last_piece.name()] -= 1
         mahjongSession.chi(current_player, last_piece)
         def checkPlay(m):
@@ -85,6 +98,8 @@ async def peng(ctx):
     global current_player
     current_player = mahjongSession.findPlayer(str(ctx.author.id))
     if mahjongSession.players[current_player].canPengOrKong(last_piece) >= 2:
+        global peng_kong_asked
+        peng_kong_asked = True
         mahjongSession.pile[last_piece.name()] -= 1
         mahjongSession.peng(current_player, last_piece)
         def checkPlay(m):
@@ -97,6 +112,8 @@ async def kong(ctx):
     global current_player
     current_player = mahjongSession.findPlayer(str(ctx.author.id))
     if mahjongSession.players[current_player].canPengOrKong(last_piece) == 3:
+        global peng_kong_asked
+        peng_kong_asked = True
         mahjongSession.pile[last_piece.name()] -= 1
         mahjongSession.kong(current_player, last_piece)
         def checkPlay(m):
