@@ -80,22 +80,6 @@ async def play(ctx, arg):
             last_piece = mahjongSession.play(temp, int(arg))
 
 @bot.command()
-async def chi(ctx):
-    global current_player
-    temp = current_player + 1
-    temp %= 4
-    if str(ctx.author.id) == mahjongSession.players[temp].id and len(mahjongSession.chiOptions(temp, last_piece)) > 0:
-        current_player = temp
-        global chi_asked
-        chi_asked = True 
-        mahjongSession.pile[last_piece.name()] -= 1
-        mahjongSession.chi(current_player, last_piece)
-        def checkPlay(m):
-            return m.content.startsWith(">play")
-        await mahjongSession.players[current_player].member.dm_channel.send("Play a piece...")
-        await bot.wait_for('message', check=checkPlay)
-
-@bot.command()
 async def peng(ctx):
     global current_player
     temp = mahjongSession.findPlayer(str(ctx.author.id))
@@ -120,6 +104,22 @@ async def kong(ctx):
         peng_kong_asked = True
         mahjongSession.pile[last_piece.name()] -= 1
         mahjongSession.kong(current_player, last_piece)
+        def checkPlay(m):
+            return m.content.startsWith(">play")
+        await mahjongSession.players[current_player].member.dm_channel.send("Play a piece...")
+        await bot.wait_for('message', check=checkPlay)
+
+@bot.command()
+async def chi(ctx):
+    global current_player
+    temp = current_player + 1
+    temp %= 4
+    if (not peng_kong_asked) and str(ctx.author.id) == mahjongSession.players[temp].id and len(mahjongSession.chiOptions(temp, last_piece)) > 0:
+        current_player = temp
+        global chi_asked
+        chi_asked = True 
+        mahjongSession.pile[last_piece.name()] -= 1
+        mahjongSession.chi(current_player, last_piece)
         def checkPlay(m):
             return m.content.startsWith(">play")
         await mahjongSession.players[current_player].member.dm_channel.send("Play a piece...")
