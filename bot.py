@@ -51,6 +51,9 @@ async def game(ctx):
     def checkPlayFirst(m):
         return str(m.author.id) == mahjongSession.players[0].id and m.content.startsWith(">play")
 
+    def checkPlay(m):
+        return str(m.author.id) == mahjongSession.players[current_player].id and m.content.startsWith(">play")
+
     await mahjongSession.players[0].member.dm_channel.send("Play first tile...")
     await bot.wait_for('message', check=checkPlayFirst)
     #insert display for first played card in channel
@@ -64,7 +67,8 @@ async def game(ctx):
         elif chi_asked:
             pass
         else:
-            pass
+            mahjongSession.drawFromPileFront(current_player)
+            await bot.wait_for('message', check=checkPlayFirst)
         current_player += 1
         current_player %= 4
         peng_kong_asked = False

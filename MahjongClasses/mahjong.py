@@ -60,6 +60,9 @@ class Mahjong:
     def atFullCapacity(self):
         return len(self.players) == 4
 
+    def drawFromPileFront(player):
+        self.players[player].add(self.deck.drawFront())
+
     def deal(self):
         '''dice_1 = random.randint(1, 6)
         dice_2 = random.randint(1, 6)
